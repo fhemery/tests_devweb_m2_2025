@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReceiptPrinter should print a receipt with one item 1`] = `
+"apples                              4.98
+  1.99 * 2.500
+
+Total:                              4.98"
+`;
+
+exports[`ReceiptPrinter should print an empty receipt 1`] = `
+"
+Total:                              0.00"
+`;
