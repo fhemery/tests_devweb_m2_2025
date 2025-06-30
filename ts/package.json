@@ -11,6 +11,7 @@
     "@stryker-mutator/core": "^8.2.6",
     "@stryker-mutator/jest-runner": "^8.2.6",
     "@types/jest": "^29.5.12",
+    "@types/lodash": "^4.17.19",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.57.0",
@@ -21,5 +22,8 @@
     "typescript": "^5.4.5"
   },
   "author": "Frédéric HEMERY",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }
