@@ -60,6 +60,23 @@ describe('Teller', () => {
         expect(receipt.getTotalPrice()).toBeCloseTo(2.99 * 2.5);
     })
 
+
+    it('should apply three for 2 offer even if items are added separately', () => {
+        const catalog = new FakeCatalog();
+        const toothbrush = new Product('toothbrush', ProductUnit.Each);
+        catalog.addProduct(toothbrush, 2);
+        const teller = new Teller(catalog);
+        teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, toothbrush, 2);
+        const cart = new ShoppingCart();
+        cart.addItemQuantity(toothbrush, 1);
+        cart.addItemQuantity(toothbrush, 1);
+        cart.addItemQuantity(toothbrush, 1);
+
+        const receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toBe(2 * 2);
+    });
+
     // TODO : Several products
     // TODO for refactoring : rename TenPercentDiscount
     // TODO : Test other rules
