@@ -44,4 +44,9 @@ describe('Potter kata', () => {
         const books: Tome[] = [1, 2, 3, 4, 5, 2, 3, 4];
         expect(teller.price(books)).toBe(4*SINGLE_BOOK_PRICE*(1-FOUR_BOOKS_DISCOUNT)*2);
     });
+
+    it('should handle piles of 5 books', () => {
+        const books: Tome[] = [1, 2, 3, 4, 5, 5, 2, 3, 4];
+        expect(teller.price(books)).toBe(4*SINGLE_BOOK_PRICE*(1-FOUR_BOOKS_DISCOUNT) + 5* SINGLE_BOOK_PRICE*(1-FIVE_BOOKS_DISCOUNT));
+    });
 })

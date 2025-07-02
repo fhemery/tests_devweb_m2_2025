@@ -17,33 +17,37 @@ class Basket {
         }
     }
 
-    hasTomes(): boolean {
-        return this.getRemainingTomes() > 0;
+    makePiles(): number[] {
+        const tomesCountOrdered = Object.values(this.tomes).sort((a, b) => b - a).filter(t => t> 0);
+
+        let currentPiles: number[] = [];
+        for (const tomes of tomesCountOrdered) {
+            for (let i = 0; i < tomes; ++i) {
+                if (currentPiles[i]) {
+                    currentPiles[i]++;
+                } else {
+                    currentPiles.push(1);
+                }
+            }
+            // We want to put the pile of 4 at the end
+            const pilesOfFour = currentPiles.filter(p => p === 4);
+            currentPiles = currentPiles.filter(p => p !== 4);
+            currentPiles.sort((a, b) => b - a);
+            currentPiles.push(...pilesOfFour);
+        }
+        
+        return currentPiles;
     }
 
-    getRemainingTomes(): number {
-        return Object.values(this.tomes).filter(tome => tome > 0).length;
-    }
-
-    removeOneTome(): void {
-        if(this.tomes[1] > 0) this.tomes[1]--;
-        if(this.tomes[2] > 0) this.tomes[2]--;
-        if(this.tomes[3] > 0) this.tomes[3]--;
-        if(this.tomes[4] > 0) this.tomes[4]--;
-        if(this.tomes[5] > 0) this.tomes[5]--;
+    pricePile(numberOfBooksInThePile: number): number {
+        return numberOfBooksInThePile * SINGLE_BOOK_PRICE * tomePrices[numberOfBooksInThePile];
     }
 }
 
 export class PotterTeller {
     price(books: Tome[]): number {
         const basket = new Basket(books);
-        
-        let total = 0;
-        while(basket.hasTomes()) {
-            const nbDifferentTomes = basket.getRemainingTomes();
-            total += nbDifferentTomes * SINGLE_BOOK_PRICE * tomePrices[nbDifferentTomes];
-            basket.removeOneTome();
-        }
-        return total;
+        const piles = basket.makePiles();
+        return piles.reduce((acc, p) => acc + basket.pricePile(p), 0);
     }
 }
